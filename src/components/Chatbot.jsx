@@ -30,7 +30,7 @@ export default function Chatbot() {
     setLoading(true)
 
     try {
-      const response = await fetch("http://localhost:8001/chat", {
+      const response = await fetch("http://54.205.12.26/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
