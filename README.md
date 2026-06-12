@@ -1,16 +1,52 @@
-# React + Vite
+# Srikar Kodi — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio website with an AI-powered chatbot assistant.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React, Vite, Tailwind CSS, Framer Motion |
+| Chatbot Backend | Python, FastAPI, Groq API, Llama 3.3 |
+| Deployment | AWS EC2, Nginx |
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- CRED-inspired dark UI with gold accents
+- Typewriter hero animation
+- Experience and education timeline
+- Projects showcase with live/building/upcoming status
+- Skills grouped by category
+- AI chatbot powered by Groq + Llama 3.3 — answers recruiter questions about Srikar
+- Contact form
 
-## Expanding the ESLint configuration
+## Running Locally
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Frontend
+```bash
+npm install
+npm run dev
+```
+
+### Chatbot Backend
+```bash
+cd backend
+python3.11 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8001
+```
+
+Create a `.env` file in the backend folder:
+```
+GROQ_API_KEY=your_groq_api_key
+```
+
+## Live
+
+Portfolio: Coming soon
+SkillSync: http://3.89.197.204
+
+---
+
+*Built by Srikar Kodi · MSc AI/ML · Berlin · 2026*
