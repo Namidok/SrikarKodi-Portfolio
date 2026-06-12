@@ -9,11 +9,11 @@ const SUGGESTED_QUESTIONS = [
 ]
 
 export default function Chatbot() {
-  const [open,     setOpen]     = useState(false)
+  const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState([
     { role: "assistant", content: "Hi! I am Srikar's AI assistant. Ask me anything about his skills, projects, or experience." }
   ])
-  const [input,   setInput]   = useState("")
+  const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
   const bottomRef = useRef(null)
 
@@ -30,7 +30,7 @@ export default function Chatbot() {
     setLoading(true)
 
     try {
-      const response = await fetch("http://3.95.233.208/chat", {
+      const response = await fetch("/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
