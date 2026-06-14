@@ -2,40 +2,23 @@ import { PERSONAL, EXPERIENCE, EDUCATION, UI_TEXT } from "../data/portfolio"
 import { useLang, t } from "../hooks/useLang.jsx"
 import { MapPin, Calendar, Target, Briefcase, GraduationCap } from "lucide-react"
 
-const STATS = [
-  { label: { en: "Years Experience", de: "Jahre Erfahrung" }, value: "3+" },
-  { label: { en: "Projects Built", de: "Projekte gebaut" }, value: "4" },
-  { label: { en: "Technologies", de: "Technologien" }, value: "20+" },
-  { label: { en: "Countries Worked", de: "Arbeit in Ländern" }, value: "2" },
-]
-
 export default function About() {
   const { lang } = useLang()
   return (
     <section id="about" className="py-32 px-6">
       <div className="max-w-6xl mx-auto space-y-24">
-        <div className="fade-section grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <p className="text-xs text-[#C9A84C] uppercase tracking-widest mb-4 font-semibold">{t(UI_TEXT.about.label, lang)}</p>
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 leading-tight">
-              {t(UI_TEXT.about.heading1, lang)}<br /><span className="gold-text">{t(UI_TEXT.about.heading2, lang)}</span>
-            </h2>
-            {t(PERSONAL.bio, lang).map((para, i) => (
-              <p key={i} className="text-[#888888] text-base leading-relaxed mb-4">{para}</p>
-            ))}
-            <div className="flex flex-wrap gap-4 mt-8">
-              <div className="flex items-center gap-2 text-[#555555] text-sm"><MapPin size={14} className="text-[#C9A84C]" />{PERSONAL.location}</div>
-              <div className="flex items-center gap-2 text-[#555555] text-sm"><Calendar size={14} className="text-[#C9A84C]" />{t(UI_TEXT.about.available, lang)}</div>
-              <div className="flex items-center gap-2 text-[#555555] text-sm"><Target size={14} className="text-[#C9A84C]" />{t(UI_TEXT.about.internship, lang)}</div>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {STATS.map(({ label, value }) => (
-              <div key={value} className="bg-[#141414] border border-[#2a2a2a] rounded-2xl p-6 hover:border-[#C9A84C]/30 transition-colors">
-                <p className="text-4xl font-black gold-text mb-2">{value}</p>
-                <p className="text-[#555555] text-sm">{t(label, lang)}</p>
-              </div>
-            ))}
+        <div className="fade-section max-w-3xl">
+          <p className="text-xs text-[#C9A84C] uppercase tracking-widest mb-4 font-semibold">{t(UI_TEXT.about.label, lang)}</p>
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-8 leading-tight">
+            {t(UI_TEXT.about.heading1, lang)}<br /><span className="gold-text">{t(UI_TEXT.about.heading2, lang)}</span>
+          </h2>
+          {t(PERSONAL.bio, lang).map((para, i) => (
+            <p key={i} className="text-[#888888] text-base leading-relaxed mb-4">{para}</p>
+          ))}
+          <div className="flex flex-wrap gap-4 mt-8">
+            <div className="flex items-center gap-2 text-[#555555] text-sm"><MapPin size={14} className="text-[#C9A84C]" />{PERSONAL.location}</div>
+            <div className="flex items-center gap-2 text-[#555555] text-sm"><Calendar size={14} className="text-[#C9A84C]" />{t(UI_TEXT.about.available, lang)}</div>
+            <div className="flex items-center gap-2 text-[#555555] text-sm"><Target size={14} className="text-[#C9A84C]" />{t(UI_TEXT.about.internship, lang)}</div>
           </div>
         </div>
         <div className="fade-section">
