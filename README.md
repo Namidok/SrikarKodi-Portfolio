@@ -41,12 +41,3 @@ Create a `.env` file in the backend folder:
 ```
 GROQ_API_KEY=your_groq_api_key
 ```
-
-## Live
-
-Portfolio: Coming soon
-SkillSync: http://3.89.197.204
-
----
-
-*Built by Srikar Kodi · MSc AI/ML · Berlin · 2026*

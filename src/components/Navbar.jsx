@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react"
-import { PERSONAL } from "../data/portfolio"
-
-const LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
-]
+import { PERSONAL, UI_TEXT } from "../data/portfolio"
+import { useLang, t } from "../hooks/useLang.jsx"
 
 export default function Navbar() {
+  const { lang, toggle } = useLang()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -31,31 +26,29 @@ export default function Navbar() {
           <span className="text-white/80 text-sm font-normal">Portfolio</span>
         </a>
         <div className="hidden md:flex items-center gap-8">
-          {LINKS.map(({ label, href }) => (
-            <a key={label} href={href} className="text-[#888888] hover:text-white text-sm transition-colors duration-200 tracking-wide">
-              {label}
-            </a>
-          ))}
-          <a href={PERSONAL.cv} target="_blank" rel="noreferrer" className="border border-[#C9A84C]/40 hover:border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/5 text-sm px-4 py-1.5 rounded-lg transition-all duration-200 tracking-wide">
-            View CV
-          </a>
+          <a href="#about" className="text-[#888888] hover:text-white text-sm transition-colors duration-200 tracking-wide">{t(UI_TEXT.nav.about, lang)}</a>
+          <a href="#projects" className="text-[#888888] hover:text-white text-sm transition-colors duration-200 tracking-wide">{t(UI_TEXT.nav.projects, lang)}</a>
+          <a href="#skills" className="text-[#888888] hover:text-white text-sm transition-colors duration-200 tracking-wide">{t(UI_TEXT.nav.skills, lang)}</a>
+          <a href="#contact" className="text-[#888888] hover:text-white text-sm transition-colors duration-200 tracking-wide">{t(UI_TEXT.nav.contact, lang)}</a>
+          <button onClick={toggle} className="border border-[#C9A84C]/40 hover:border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/5 text-sm px-4 py-1.5 rounded-lg transition-all duration-200 tracking-wide font-semibold">
+            {lang === "en" ? "DE" : "EN"}
+          </button>
         </div>
-        <button onClick={() => setOpen(!open)} className="md:hidden text-[#888888] hover:text-white transition-colors">
-          <div className="w-5 h-0.5 bg-current mb-1" />
-          <div className="w-5 h-0.5 bg-current mb-1" />
-          <div className="w-5 h-0.5 bg-current" />
-        </button>
+        <div className="flex md:hidden items-center gap-3">
+          <button onClick={toggle} className="text-[#C9A84C] text-sm font-semibold">{lang === "en" ? "DE" : "EN"}</button>
+          <button onClick={() => setOpen(!open)} className="text-[#888888] hover:text-white transition-colors">
+            <div className="w-5 h-0.5 bg-current mb-1" />
+            <div className="w-5 h-0.5 bg-current mb-1" />
+            <div className="w-5 h-0.5 bg-current" />
+          </button>
+        </div>
       </div>
       {open && (
         <div className="md:hidden bg-[#141414] border-t border-[#2a2a2a] px-6 py-4 space-y-4">
-          {LINKS.map(({ label, href }) => (
-            <a key={label} href={href} onClick={() => setOpen(false)} className="block text-[#888888] hover:text-white text-sm transition-colors">
-              {label}
-            </a>
-          ))}
-          <a href={PERSONAL.cv} target="_blank" rel="noreferrer" className="block text-[#C9A84C] text-sm">
-            View CV
-          </a>
+          <a href="#about" onClick={() => setOpen(false)} className="block text-[#888888] hover:text-white text-sm transition-colors">{t(UI_TEXT.nav.about, lang)}</a>
+          <a href="#projects" onClick={() => setOpen(false)} className="block text-[#888888] hover:text-white text-sm transition-colors">{t(UI_TEXT.nav.projects, lang)}</a>
+          <a href="#skills" onClick={() => setOpen(false)} className="block text-[#888888] hover:text-white text-sm transition-colors">{t(UI_TEXT.nav.skills, lang)}</a>
+          <a href="#contact" onClick={() => setOpen(false)} className="block text-[#888888] hover:text-white text-sm transition-colors">{t(UI_TEXT.nav.contact, lang)}</a>
         </div>
       )}
     </nav>
