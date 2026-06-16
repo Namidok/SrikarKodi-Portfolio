@@ -99,9 +99,8 @@ export const PROJECTS = [
     },
     stack: ["Python", "FastAPI", "React", "Tailwind", "NLP", "AWS EC2", "Nginx"],
     github: "https://github.com/Namidok/SkillSync",
-    live: "http://3.228.77.181",
-    status: "live",
-    highlight: { en: "Built and deployed in 1 day", de: "In einem Tag gebaut und deployed" },
+    live: "https://skillsync.srikarkodi.dev",
+    status: "live"
   },
   {
     id: 2,
@@ -115,10 +114,9 @@ export const PROJECTS = [
       de: "Lädt 50 echte deutsche Stellenbeschreibungen in ChromaDB. Dein Lebenslauf als Kontext. Generiert maßgeschneiderte Anschreiben und Skill-Gap-Analysen pro Unternehmen.",
     },
     stack: ["LangChain", "ChromaDB", "FastAPI", "AWS EC2", "S3", "Nginx"],
-    github: "#",
-    live: "#",
-    status: "building",
-    highlight: { en: "Week 4 - In progress", de: "Woche 4 - In Bearbeitung" },
+    github: "https://github.com/Namidok/CoverCraft",
+    live: "https://covercraft.srikarkodi.dev",
+    status: "building"
   },
   {
     id: 3,
@@ -135,7 +133,6 @@ export const PROJECTS = [
     github: "#",
     live: "#",
     status: "upcoming",
-    highlight: { en: "Week 5", de: "Woche 5" },
   },
   {
     id: 4,
@@ -151,8 +148,7 @@ export const PROJECTS = [
     stack: ["LangChain", "FastAPI", "AWS ECS", "RDS", "GitHub Actions"],
     github: "#",
     live: "#",
-    status: "upcoming",
-    highlight: { en: "Week 6", de: "Woche 6" },
+    status: "upcoming"
   },
 ]
 

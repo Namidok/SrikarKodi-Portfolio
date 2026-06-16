@@ -17,8 +17,6 @@ export default function About() {
           ))}
           <div className="flex flex-wrap gap-4 mt-8">
             <div className="flex items-center gap-2 text-[#555555] text-sm"><MapPin size={14} className="text-[#C9A84C]" />{PERSONAL.location}</div>
-            <div className="flex items-center gap-2 text-[#555555] text-sm"><Calendar size={14} className="text-[#C9A84C]" />{t(UI_TEXT.about.available, lang)}</div>
-            <div className="flex items-center gap-2 text-[#555555] text-sm"><Target size={14} className="text-[#C9A84C]" />{t(UI_TEXT.about.internship, lang)}</div>
           </div>
         </div>
         <div className="fade-section">
