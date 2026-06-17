@@ -19,43 +19,20 @@
 
 ```mermaid
 graph TB
-    subgraph Client["🌍 Client (Browser)"]
-        A[React Frontend<br/>Vite + Tailwind CSS]
-    end
+    Browser["Browser - React Frontend"]
+    CF["Cloudflare - srikarkodi.dev"]
+    Nginx["Nginx Reverse Proxy - EC2"]
+    Static["Static Files - portfolio/dist"]
+    Docker["Docker Container - FastAPI Port 8001"]
+    Groq["Groq API - Llama 3.3 70B"]
+    ECR["AWS ECR - Docker Image"]
 
-    subgraph Cloudflare["☁️ Cloudflare CDN"]
-        CF[DNS + DDoS Protection<br/>srikarkodi.dev]
-    end
-
-    subgraph EC2["🖥️ AWS EC2 t3.micro — 3.228.77.181"]
-        subgraph Nginx["Nginx Reverse Proxy"]
-            N1[Port 80 → Portfolio React]
-            N2[/chat → Port 8001]
-        end
-
-        subgraph Docker["🐳 Docker Container"]
-            D1[Portfolio Chatbot API<br/>FastAPI · Port 8001]
-        end
-
-        subgraph Static["📁 Static Files"]
-            S1[/home/ubuntu/portfolio/dist]
-        end
-    end
-
-    subgraph Groq["⚡ Groq Cloud API"]
-        G1[Llama 3.3 70B<br/>Free Tier · 14,400 req/day]
-    end
-
-    subgraph ECR["🗄️ AWS ECR"]
-        E1[portfolio/chatbot:latest<br/>Docker Image]
-    end
-
-    A -->|HTTPS| CF
+    Browser -->|HTTPS| CF
     CF -->|HTTP| Nginx
-    N1 --> S1
-    N2 --> D1
-    D1 -->|API Call| G1
-    E1 -->|docker pull| D1
+    Nginx -->|Port 80| Static
+    Nginx -->|/chat| Docker
+    Docker -->|API Call| Groq
+    ECR -->|docker pull| Docker
 ```
 
 ---
@@ -64,20 +41,20 @@ graph TB
 
 ```mermaid
 sequenceDiagram
-    participant R as 👤 Recruiter
-    participant UI as ⚛️ React UI
-    participant N as 🔀 Nginx
-    participant API as 🐍 FastAPI
-    participant G as ⚡ Groq/Llama
+    participant R as Recruiter
+    participant UI as React UI
+    participant N as Nginx
+    participant API as FastAPI
+    participant G as Groq Llama 3.3
 
     R->>UI: Types question in chat
-    UI->>N: POST /chat {messages: [...]}
+    UI->>N: POST /chat
     N->>API: Proxy to port 8001
-    API->>API: Build prompt with<br/>Srikar's full CV as context
-    API->>G: POST /v1/chat/completions<br/>model: llama-3.3-70b-versatile
+    API->>API: Add CV context to prompt
+    API->>G: POST /v1/chat/completions
     G-->>API: Generated response
-    API-->>UI: {reply: "..."}
-    UI-->>R: Displays answer < 2 seconds
+    API-->>UI: JSON reply
+    UI-->>R: Displays answer in under 2 seconds
 ```
 
 ---
@@ -86,33 +63,17 @@ sequenceDiagram
 
 ```mermaid
 graph LR
-    subgraph Dev["💻 Local Development"]
-        A[React<br/>npm run dev<br/>:5173] 
-        B[FastAPI<br/>uvicorn<br/>:8001]
-    end
+    Dev["Local Dev - React + FastAPI"]
+    Build["npm run build + docker buildx"]
+    ECR["AWS ECR - portfolio/chatbot"]
+    EC2["AWS EC2 - Production"]
+    Nginx["Nginx - serves static + proxies chat"]
 
-    subgraph Build["🔨 Build"]
-        C[npm run build<br/>→ dist/]
-        D[docker buildx build<br/>--platform linux/amd64]
-    end
-
-    subgraph Registry["📦 AWS ECR"]
-        E[portfolio/chatbot:latest]
-    end
-
-    subgraph Prod["🌐 Production — AWS EC2"]
-        F[SCP dist/ →<br/>/home/ubuntu/portfolio/]
-        G[docker pull<br/>docker run -d]
-        H[Nginx serves<br/>static + proxies /chat]
-    end
-
-    A --> C
-    B --> D
-    C --> F
-    D --> E
-    E --> G
-    F --> H
-    G --> H
+    Dev --> Build
+    Build --> ECR
+    ECR -->|docker pull| EC2
+    Build -->|scp dist/| EC2
+    EC2 --> Nginx
 ```
 
 ---
@@ -130,7 +91,7 @@ graph LR
 | Server | AWS EC2 t3.micro | Compute |
 | Web Server | Nginx | Static serving + reverse proxy |
 | DNS | Cloudflare | Domain + DDoS protection |
-| Fixed IP | AWS Elastic IP | Permanent server address |
+| Fixed IP | AWS Elastic IP 3.228.77.181 | Permanent server address |
 
 ---
 
@@ -139,18 +100,18 @@ graph LR
 ### Portfolio UI
 - **CRED-inspired dark theme** — near-black background with gold accents
 - **Constellation particle background** — 80 particles with mouse-reactive connections
-- **Typewriter hero animation** — cycles through 4 roles at 80ms/character
+- **Typewriter hero animation** — cycles through 4 roles at 80ms per character
 - **DE/EN language toggle** — full German translation across all sections
 - **Smooth scroll reveals** — Intersection Observer API on every section
 - **Responsive design** — mobile, tablet, desktop
 
 ### AI Chatbot
 - **Auto-opens after 5 seconds** with a greeting message
-- **Pulsing gold glow** — never stops drawing attention
+- **Pulsing gold glow** — draws attention without being annoying
 - **Animated bounce bubble** — "Ask me anything!" above the button
-- **Suggested questions** — 4 pre-built recruiter questions
+- **Suggested questions** — 4 pre-built recruiter questions on first open
 - **Full CV as context** — knows every detail of Srikar's profile
-- **Answers in the user's language** — EN or DE automatically
+- **Answers in the user's language** — EN or DE automatically detected
 - **Sub-2 second responses** — Groq's LPU inference engine
 
 ---
@@ -161,29 +122,29 @@ graph LR
 SrikarKodi_Portfolio/
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.jsx          # Fixed navbar with scroll effect + DE/EN toggle
-│   │   ├── Chatbot.jsx         # AI chatbot UI — auto-open, suggestions, typing
-│   │   └── ParticleBackground.jsx  # Canvas constellation animation
+│   │   ├── Navbar.jsx              Sticky navbar with DE/EN toggle
+│   │   ├── Chatbot.jsx             AI chatbot with auto-open and suggestions
+│   │   └── ParticleBackground.jsx  Canvas constellation animation
 │   ├── sections/
-│   │   ├── Hero.jsx            # Typewriter + CTA buttons
-│   │   ├── About.jsx           # Bio + experience + education
-│   │   ├── Projects.jsx        # 4 project cards with live/building/upcoming
-│   │   ├── Skills.jsx          # Skills grouped by category
-│   │   └── Contact.jsx         # Contact form + social links
+│   │   ├── Hero.jsx                Typewriter animation + CTA buttons
+│   │   ├── About.jsx               Bio, experience, education timeline
+│   │   ├── Projects.jsx            4 project cards with live/building/upcoming
+│   │   ├── Skills.jsx              Skills grouped by category
+│   │   └── Contact.jsx             Contact form + social links
 │   ├── hooks/
-│   │   ├── useScrollFade.js    # Intersection Observer scroll animations
-│   │   ├── useLang.jsx         # DE/EN language context
-│   │   └── useTracker.js       # Visitor tracking
+│   │   ├── useScrollFade.js        Intersection Observer scroll animations
+│   │   ├── useLang.jsx             DE/EN language context provider
+│   │   └── useTracker.js           Visitor tracking hook
 │   └── data/
-│       └── portfolio.js        # Single source of truth — all content in EN + DE
+│       └── portfolio.js            All content in EN + DE translations
 ├── backend/
-│   ├── main.py                 # FastAPI — /chat, /track, /analytics, /health
-│   ├── requirements.txt        # Python deps — pinned versions
-│   ├── Dockerfile              # python:3.11-slim, port 8002
+│   ├── main.py                     FastAPI endpoints - /chat /track /analytics
+│   ├── requirements.txt            Python deps with pinned versions
+│   ├── Dockerfile                  python:3.11-slim image
 │   └── .dockerignore
 ├── public/
-│   └── SrikarKodi-CV.pdf       # Downloadable CV
-└── dist/                       # Production build — served by Nginx
+│   └── SrikarKodi-CV.pdf           Downloadable CV
+└── dist/                           Production build served by Nginx
 ```
 
 ---
@@ -196,7 +157,7 @@ git clone https://github.com/Namidok/SrikarKodi_Portfolio.git
 cd SrikarKodi_Portfolio
 npm install
 npm run dev
-# → http://localhost:5173
+# Opens at http://localhost:5173
 ```
 
 ### Chatbot Backend
@@ -206,11 +167,10 @@ python3.11 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# Create .env
 echo "GROQ_API_KEY=your_key_here" > .env
 
 ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8001
-# → http://localhost:8001/health
+# Health check at http://localhost:8001/health
 ```
 
 > Get a free Groq API key at [console.groq.com](https://console.groq.com)
@@ -219,27 +179,27 @@ echo "GROQ_API_KEY=your_key_here" > .env
 
 ## 📊 Visitor Analytics
 
-Self-built analytics endpoint — no third-party tracking.
+Self-built analytics — no third-party tracking.
 
 ```bash
-# View analytics (requires key)
 curl http://srikarkodi.dev/analytics?key=srikar2026
 ```
 
-Returns: total visits, unique IPs, visits by day, visits by language, recent 20 visitors.
+Returns total visits, unique IPs, visits by day, visits by language, recent 20 visitors.
 
 ---
 
-## 🐳 Docker Deployment
+## 🐳 Docker Commands
 
 ```bash
-# Build for Linux AMD64 (EC2 architecture)
+# Build for Linux AMD64 and push to ECR
 docker buildx build --platform linux/amd64 \
   -t 830673476818.dkr.ecr.us-east-1.amazonaws.com/portfolio/chatbot:latest \
   --push .
 
-# On EC2 — pull and run
+# On EC2 - pull and run
 docker pull 830673476818.dkr.ecr.us-east-1.amazonaws.com/portfolio/chatbot:latest
+
 docker run -d \
   --name portfolio-chatbot \
   --restart always \
@@ -252,21 +212,18 @@ docker run -d \
 
 ## 🔄 Redeployment
 
-### Update frontend
 ```bash
+# Update frontend
 npm run build
 scp -i ~/skillsync-key.pem -r dist ubuntu@3.228.77.181:/home/ubuntu/portfolio/
-```
 
-### Update chatbot backend
-```bash
-# Mac — rebuild and push
+# Update chatbot backend
 docker buildx build --platform linux/amd64 \
   -t 830673476818.dkr.ecr.us-east-1.amazonaws.com/portfolio/chatbot:latest --push .
 
-# EC2 — pull and restart
-docker pull 830673476818.dkr.ecr.us-east-1.amazonaws.com/portfolio/chatbot:latest
+# On EC2
 docker stop portfolio-chatbot && docker rm portfolio-chatbot
+docker pull 830673476818.dkr.ecr.us-east-1.amazonaws.com/portfolio/chatbot:latest
 docker run -d --name portfolio-chatbot --restart always -p 8001:8001 \
   -e GROQ_API_KEY=your_key \
   830673476818.dkr.ecr.us-east-1.amazonaws.com/portfolio/chatbot:latest
