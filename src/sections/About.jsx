@@ -1,4 +1,5 @@
 import { PERSONAL, EXPERIENCE, EDUCATION, UI_TEXT } from "../data/portfolio"
+import Timeline from "../components/Timeline"
 import { useLang, t } from "../hooks/useLang.jsx"
 import { MapPin, Calendar, Target, Briefcase, GraduationCap } from "lucide-react"
 
@@ -19,6 +20,11 @@ export default function About() {
             <div className="flex items-center gap-2 text-[#555555] text-sm"><MapPin size={14} className="text-[#C9A84C]" />{PERSONAL.location}</div>
           </div>
         </div>
+        <div className="fade-section">
+          <p className="text-xs text-[#C9A84C] uppercase tracking-widest mb-8 font-semibold">Journey</p>
+          <Timeline lang={lang} />
+        </div>
+
         <div className="fade-section">
           <div className="flex items-center gap-3 mb-10">
             <Briefcase size={18} className="text-[#C9A84C]" />

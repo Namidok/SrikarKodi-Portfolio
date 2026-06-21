@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { PERSONAL, UI_TEXT } from "../data/portfolio"
 import { useLang, t } from "../hooks/useLang.jsx"
 import { ArrowDown, GitBranch, Link, Mail } from "lucide-react"
+import Terminal from "../components/Terminal"
 
 const ROLES = ["AI/ML Engineer", "RAG Pipeline Builder", "Full Stack Developer", "AWS Deployment Engineer"]
 
@@ -29,28 +30,58 @@ export default function Hero() {
   }, [charIndex, deleting, roleIndex])
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#C9A84C]/5 blur-[120px] pointer-events-none" />
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
-        <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-4 leading-none">
-          <span className="text-white">Srikar</span><br /><span className="gold-text">Kodi</span>
-        </h1>
-        <div className="h-10 flex items-center justify-center mb-6">
-          <span className="text-xl md:text-2xl text-[#888888] font-light">
-            {displayed}<span className="inline-block w-0.5 h-6 bg-[#C9A84C] ml-0.5 animate-pulse" />
-          </span>
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 md:px-6 pt-20 pb-12 overflow-hidden">
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-[400px] md:h-[600px] rounded-full bg-[#C9A84C]/5 blur-[120px] pointer-events-none" />
+
+      <div className="relative z-10 w-full max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+          {/* Left — Name + text */}
+          <div className="text-left">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-3 leading-none">
+              <span className="text-white">Srikar</span><br />
+              <span className="gold-text">Kodi</span>
+            </h1>
+
+            <div className="h-8 md:h-10 flex items-center mb-4 md:mb-6">
+              <span className="text-lg md:text-2xl text-[#888888] font-light">
+                {displayed}<span className="inline-block w-0.5 h-5 md:h-6 bg-[#C9A84C] ml-0.5 animate-pulse" />
+              </span>
+            </div>
+
+            <p className="text-[#555555] text-base md:text-lg max-w-lg mb-8 md:mb-10 leading-relaxed">
+              {t(PERSONAL.tagline, lang)}
+            </p>
+
+            <div className="flex items-center gap-3 mb-8 md:mb-10 flex-wrap">
+              <a href="#projects" className="bg-[#C9A84C] hover:bg-[#E8C96A] text-black font-bold px-6 md:px-8 py-3 md:py-3.5 rounded-xl transition-all duration-200 text-sm tracking-wide hover:scale-105">
+                {t(UI_TEXT.hero.cta_primary, lang)}
+              </a>
+              <a href="#contact" className="border border-[#2a2a2a] hover:border-[#C9A84C]/40 text-[#888888] hover:text-white font-medium px-6 md:px-8 py-3 md:py-3.5 rounded-xl transition-all duration-200 text-sm">
+                {t(UI_TEXT.hero.cta_secondary, lang)}
+              </a>
+            </div>
+
+            <div className="flex items-center gap-6">
+              <a href={PERSONAL.github} target="_blank" rel="noreferrer" className="text-[#555555] hover:text-[#C9A84C] transition-colors"><GitBranch size={20} /></a>
+              <a href={PERSONAL.linkedin} target="_blank" rel="noreferrer" className="text-[#555555] hover:text-[#C9A84C] transition-colors"><Link size={20} /></a>
+              <a href={"mailto:" + PERSONAL.email} className="text-[#555555] hover:text-[#C9A84C] transition-colors"><Mail size={20} /></a>
+            </div>
+          </div>
+
+          {/* Right — Terminal (hidden on small mobile, shown from sm up) */}
+          <div className="hidden sm:flex justify-center lg:justify-end">
+            <Terminal />
+          </div>
+
         </div>
-        <p className="text-[#555555] text-lg max-w-xl mx-auto mb-12 leading-relaxed">{t(PERSONAL.tagline, lang)}</p>
-        <div className="flex items-center justify-center gap-4 mb-16">
-          <a href="#projects" className="bg-[#C9A84C] hover:bg-[#E8C96A] text-black font-bold px-8 py-3.5 rounded-xl transition-all duration-200 text-sm tracking-wide hover:scale-105">{t(UI_TEXT.hero.cta_primary, lang)}</a>
-          <a href="#contact" className="border border-[#2a2a2a] hover:border-[#C9A84C]/40 text-[#888888] hover:text-white font-medium px-8 py-3.5 rounded-xl transition-all duration-200 text-sm">{t(UI_TEXT.hero.cta_secondary, lang)}</a>
-        </div>
-        <div className="flex items-center justify-center gap-6">
-          <a href={PERSONAL.github} target="_blank" rel="noreferrer" className="text-[#555555] hover:text-[#C9A84C] transition-colors"><GitBranch size={20} /></a>
-          <a href={PERSONAL.linkedin} target="_blank" rel="noreferrer" className="text-[#555555] hover:text-[#C9A84C] transition-colors"><Link size={20} /></a>
-          <a href={"mailto:" + PERSONAL.email} className="text-[#555555] hover:text-[#C9A84C] transition-colors"><Mail size={20} /></a>
+
+        {/* Terminal on small mobile — shown below content */}
+        <div className="sm:hidden mt-8 w-full">
+          <Terminal />
         </div>
       </div>
+
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#555555]">
         <span className="text-xs tracking-widest uppercase">{t(UI_TEXT.hero.scroll, lang)}</span>
         <ArrowDown size={14} className="animate-bounce" />

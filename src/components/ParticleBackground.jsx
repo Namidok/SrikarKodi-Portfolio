@@ -20,9 +20,9 @@ export default function ParticleBackground() {
       mouse.y = e.clientY
     })
 
-    const PARTICLE_COUNT = 80
-    const MAX_DIST = 150
-    const GOLD = "232,201,106"
+    const PARTICLE_COUNT = 120
+    const MAX_DIST = 180
+    const GOLD = "240,210,100"
 
     const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
       x: Math.random() * canvas.width,
@@ -43,7 +43,7 @@ export default function ParticleBackground() {
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = "rgba(" + GOLD + ", 0.8)"
+        ctx.fillStyle = "rgba(" + GOLD + ", 1)"
         ctx.fill()
       })
 
@@ -57,7 +57,7 @@ export default function ParticleBackground() {
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = "rgba(" + GOLD + "," + (1 - dist / MAX_DIST) * 0.25 + ")"
+            ctx.strokeStyle = "rgba(" + GOLD + "," + (1 - dist / MAX_DIST) * 0.35 + ")"
             ctx.lineWidth = 0.5
             ctx.stroke()
           }
@@ -72,7 +72,7 @@ export default function ParticleBackground() {
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(mouse.x, mouse.y)
-            ctx.strokeStyle = "rgba(" + GOLD + "," + (1 - dist / (MAX_DIST * 1.5)) * 0.5 + ")"
+            ctx.strokeStyle = "rgba(" + GOLD + "," + (1 - dist / (MAX_DIST * 1.5)) * 0.6 + ")"
             ctx.lineWidth = 0.5
             ctx.stroke()
           }

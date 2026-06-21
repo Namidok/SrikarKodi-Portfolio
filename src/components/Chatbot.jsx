@@ -15,11 +15,7 @@ export default function Chatbot() {
   // Auto-open after 5 seconds
   useEffect(() => {
     const timer1 = setTimeout(() => setShowBubble(true), 3000)
-    const timer2 = setTimeout(() => {
-      setOpen(true)
-      setMessages([{ role: "assistant", content: t(UI_TEXT.chatbot.greeting, lang) }])
-    }, 5000)
-    return () => { clearTimeout(timer1); clearTimeout(timer2) }
+    return () => { clearTimeout(timer1) }
   }, [])
 
   useEffect(() => {
