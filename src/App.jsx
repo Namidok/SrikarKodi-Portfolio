@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar"
 import Chatbot from "./components/Chatbot"
 import ParticleBackground from "./components/ParticleBackground"
 import MouseSpotlight from "./components/MouseSpotlight"
+import IntroPopup from "./components/IntroPopup"
 import Hero from "./sections/Hero"
 import About from "./sections/About"
 import Projects from "./sections/Projects"
@@ -18,6 +19,7 @@ export default function App() {
     <div className="min-h-screen bg-[#0D0D0D]">
       <ParticleBackground />
       <MouseSpotlight />
+      <IntroPopup />
       <div className="relative z-10">
         <Navbar />
         <Hero />

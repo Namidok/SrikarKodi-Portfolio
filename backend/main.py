@@ -36,6 +36,18 @@ def save_visitor(visitor):
     with open(VISITORS_FILE, "w") as f:
         json.dump(visitors, f, indent=2)
 
+LEADS_FILE = "leads.json"
+def load_leads():
+    if not os.path.exists(LEADS_FILE):
+        return []
+    with open(LEADS_FILE, "r") as f:
+        return json.load(f)
+def save_lead(lead):
+    leads = load_leads()
+    leads.append(lead)
+    with open(LEADS_FILE, "w") as f:
+        json.dump(leads, f, indent=2)
+
 CV_CONTEXT = """
 SRIKAR KODI - Full Profile
 
@@ -129,6 +141,26 @@ async def track_visitor(request: Request):
 
     save_visitor(visitor)
     return {"status": "tracked"}
+
+@app.post("/lead")
+async def capture_lead(request: Request):
+    body = await request.json()
+    lead = {
+        "timestamp": datetime.now().isoformat(),
+        "name": body.get("name", ""),
+        "role": body.get("role", ""),
+        "company": body.get("company", ""),
+        "email": body.get("email", ""),
+    }
+    save_lead(lead)
+    return {"status": "captured"}
+
+@app.get("/leads")
+async def get_leads(key: str = ""):
+    if key != os.getenv("ANALYTICS_KEY", "srikar2026"):
+        raise HTTPException(status_code=403, detail="Forbidden")
+    leads = load_leads()
+    return {"total_leads": len(leads), "leads": leads}
 
 @app.get("/analytics")
 async def get_analytics(key: str = ""):

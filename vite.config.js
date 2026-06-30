@@ -18,6 +18,14 @@ export default defineConfig({
         target: 'http://localhost:8001',
         changeOrigin: true,
       },
+      '/lead': {
+        target: 'http://localhost:8001',
+        changeOrigin: true,
+      },
+      '/leads': {
+        target: 'http://localhost:8001',
+        changeOrigin: true,
+      },
     },
   },
 })
